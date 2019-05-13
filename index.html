@@ -22,21 +22,135 @@
             // this is a <canvas>
             document.body.appendChild( renderer.domElement );
 
-            // Adding a cube
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-            var cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
+            // ********************** Adding a cube
+            // var geometry = new THREE.BoxGeometry(1, 1, 1);
+            // var material = new THREE.MeshPhongMaterial({color: 0xffff00})
+            // var cube = new THREE.Mesh(geometry, material);
+            // scene.add(cube);
             
+            // Adding lighting 
+            // var light = new THREE.PointLight(0xffffff, .7, 0);
+            // light.position.set(1, 1, 100);
+            // scene.add(light);
+
+
+            // *************** Adding a cube with vertices
+            // var cubeVerts = [
+            //     // x, y, z coordinates
+            //     -1.0, -1.0,  1.0,
+            //     1.0, -1.0,  1.0,
+            //     1.0,  1.0,  1.0,
+
+            //     1.0,  1.0,  1.0,
+            //     -1.0,  1.0,  1.0,
+            //     -1.0, -1.0,  1.0,
+
+            //     1.0, 1.0, -1.0,
+            //     1.0, -1.0, 1.0,               
+            //     1.0, -1.0, -1.0,
+
+            //     1.0, 1.0, -1.0,
+            //     1.0, 1.0, 1.0,
+            //     1.0, -1.0, 1.0,
+
+            //     1.0, 1.0, -1.0,
+            //     -1.0, 1.0, 1.0,
+            //     1.0, 1.0, 1.0,
+
+            //     1.0, 1.0, -1.0,
+            //     -1.0, 1.0, -1.0,
+            //     -1.0, 1.0, 1.0,
+
+            //     -1.0, 1.0, 1.0,
+            //     -1.0, -1.0, -1.0,
+            //     -1.0, -1.0, 1.0,
+
+            //     -1.0, 1.0, 1.0,
+            //     -1.0, 1.0, -1.0,
+            //     -1.0, -1.0, -1.0,
+
+            //     -1.0, 1.0, -1.0,
+            //     1.0, -1.0, -1.0,
+            //     -1.0, -1.0, -1.0,
+
+            //     -1.0, 1.0, -1.0,
+            //     1.0, 1.0, -1.0,
+            //     1.0, -1.0, -1.0,
+
+            //     -1.0, -1.0, 1.0,
+            //     1.0, -1.0, -1.0,                
+            //     1.0, -1.0, 1.0,
+
+            //     -1.0, -1.0, -1.0,
+            //     1.0, -1.0, -1.0,                
+            //     -1.0, -1.0, 1.0
+            // ];            
+            
+            // // Adjusting cube scale
+            // for (var i = 0; i < cubeVerts.length; i++) {
+            //     cubeVerts[i] *= 0.5;
+            // }
+
+            // var geometry = new THREE.BufferGeometry();
+            // var vertices = new Float32Array( cubeVerts);
+
+            // geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+            // var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+            // var mesh = new THREE.Mesh( geometry, material );
+            // scene.add(mesh);
+
+
+            // ****************** Group of cubes
+            // var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+            // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+
+            // var cubeA = new THREE.Mesh( geometry, material );
+            // cubeA.position.set( 1, 1, 0 );
+
+            // var cubeB = new THREE.Mesh( geometry, material );
+            // cubeB.position.set( -1, -1, 0 );
+
+            // var group = new THREE.Group();
+            // group.add( cubeA );
+            // group.add( cubeB );
+
+            // scene.add( group );
+
+            
+
+            // ******************* Adding multiple cubes with BoxBufferGeometry
+            var geometry = new THREE.BoxBufferGeometry( 0.5, 0.5, 0.5 );
+            var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+            var cube = new THREE.Mesh( geometry, material.clone() );
+
+            var group = new THREE.Group();
+            for( var i = 0; i < 100; i ++) {
+                for( var j = 0; j < 100; j ++) {
+                    var cubeA = cube.clone();
+                    cubeA.position.set( i, j, 0 );            
+                    group.add( cubeA );
+                }
+            }            
+            scene.add( group );
+        
+
             // Moving the camera position so it does not intersect with the cube
             camera.position.z = 5;
             
             // Let's the renderer to draw the scene
             function animate() {
                 requestAnimationFrame( animate );
+                // Rotate cube
+                // cube.rotation.x += 0.01;
+                // cube.rotation.y += 0.01;
                 
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
+                // Rotate plane
+                // mesh.rotation.x += 0.01;
+                // mesh.rotation.y += 0.01;
+
+                // Rotate group
+                group.rotation.x += 0.01;
+                group.rotation.y += 0.01;
 
                 renderer.render( scene, camera );
             }
